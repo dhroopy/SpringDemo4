@@ -81,10 +81,9 @@ public class HomeController extends JDBC{
 		HttpSession session = request.getSession();
 		String userid = (String) session.getAttribute("userid");
 		String Accttype = reqPar.get("Accttype");
-		JDBC.Balin(userid, Accttype);
+		String [] Val = JDBC.Balin(userid, Accttype);
 		ModelAndView mav = new ModelAndView("Balin");
-		//System.out.println(Acct + Bal);
-		//mav.addObject("Acct", Acct)
+		mav.addObject("Bal", Val[1]);
  	    return mav;
 	}
 

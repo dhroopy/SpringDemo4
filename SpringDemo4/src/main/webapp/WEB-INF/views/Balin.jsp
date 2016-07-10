@@ -32,7 +32,7 @@
 						</select></td>
 					</tr>
 					<tr>
-						<td align="center"><input type="text" name="Balance" placeholder="Balance" autofocus="autofocus" style="width: 162px; "></td>
+						<td align="center"><input type="text" name="Balance" value="${Bal}" autofocus="autofocus" style="width: 162px; "></td>
 					</tr>
 				</table>
 			</form>

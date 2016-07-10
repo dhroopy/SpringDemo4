@@ -95,10 +95,10 @@ public class JDBC{
 		return false;
 	}// end main
 
-	public static Void Balin(String un, String Accttype) {
-		//public static String Balin(String un, String Accttype) {
+	public static String[] Balin(String un, String Accttype) {
 		Connection conn = null;
 		Statement stmt = null;
+		String [] Retval = new String[2];
 		System.out.println("IN JDBC Class");
 		try {
 				System.out.println("Loading JDBC Drivers");
@@ -113,14 +113,10 @@ public class JDBC{
 			while(rs.next())
 			{
 				System.out.println("Executing the Query");
-			String Userid = rs.getString("Userid");
-			String Acct = rs.getString("Acct");
-			String Accttyp = rs.getString("Accttype");
-			String Bal = rs.getString("Bal");
-			if (Userid.equals(un) && Accttyp.equals(Accttype)) {
-				System.out.println(Acct + '.' + Bal);
-				//return(Acct+",.,"+Bal);
-				}
+				String Acct = rs.getString("Acct");
+				String Bal = rs.getString("Bal");
+				Retval[0] = Acct;
+				Retval[1] = Bal;
 			}
 			// STEP 6: Clean-up environment
 			rs.close();
@@ -146,8 +142,8 @@ public class JDBC{
 				se.printStackTrace();
 			} // end finally try
 		} // end try
-		//return(Acct+",.,"+Bal);
-		return null;
+		return Retval;
+		//return null;
 	}// end main
 
 	public static boolean withd(String un, String Accttype, int withdamt) {
@@ -230,6 +226,7 @@ public class JDBC{
 				se.printStackTrace();
 			} // end finally try
 		} // end try
+		return false;
 	}// end main
 
 	public static boolean mmvali(String un, String mmn) {
