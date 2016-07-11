@@ -11,15 +11,15 @@
 <% String fname = (String) session.getAttribute("Fname");%>
 <fieldset>
 <div align="center">
-			<form name="Info" method="post">
+			<form name="Info" method="post" action="Depo">
 				<table border=0 style="background-color: H0080FF80;">
 					<tr>
 						<td colspan=2 align="center" style="font-weight: bold; font-size: 20pt;" align="center"> <b> Account Deposit</b> </td>
 					</tr>
-					<tr>
+<%-- 					<tr>
 						<td align="Left"> Username : </td>
 						<td align="center"><input type="text" name="userid" value=<%=userid%> style="width: 162px; "></td>
-					</tr>
+					</tr> --%>
 					<tr>
 						<td align="Left"> Name : </td>
 						<td align="center"><input type="text" name="fname" value=<%=fname%> style="width: 162px; "></td>
@@ -36,7 +36,10 @@
 						<td align="center"><input type="text" name="depo" autofocus="autofocus" style="width: 162px; "></td>
 					</tr>
 					<tr>
-						<td align="center"><input type="button" value="Deposit" onclick="return validation();" style="width: 162px; "></td>
+						<td colspan=2 align="center"><input type="submit" value="Deposit" style="width: 162px; "></td>
+					</tr>
+					<tr>
+						<td align="center"><div id="demo">${message}</div></td>
 					</tr>
 				</table>
 			</form>

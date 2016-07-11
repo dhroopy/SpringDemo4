@@ -12,7 +12,7 @@
 
 <fieldset>
 <div align="center">
-			<form name="Info" action="" method="post">
+			<form name="Info" action="Withd" method="post">
 				<table border=0 style="background-color: H0080FF80;">
 					<tr>
 						<td colspan=2 align="center" style="font-weight: bold; font-size: 20pt;" align="center"> <b> Account Withdrawal</b> </td>

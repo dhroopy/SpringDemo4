@@ -92,6 +92,23 @@ public class HomeController extends JDBC{
 	    ModelAndView mav = new ModelAndView("Depo");
  	    return mav;
 	}
+	@RequestMapping(value = "/Depo", method = RequestMethod.POST)
+	public ModelAndView Depo(@RequestParam Map<String, String> reqPar, HttpServletRequest request) {
+		System.out.println("in Depo");
+		HttpSession session = request.getSession();
+		String userid = (String) session.getAttribute("userid");
+		String Accttype = reqPar.get("Accttype");
+		int Depo = Integer.parseInt(reqPar.get("depo"));
+		boolean val = JDBC.depo(userid, Accttype, Depo);
+		ModelAndView mav = new ModelAndView("Depo");
+     	if (val == true) {
+     	    mav.addObject("message", "Amount Deposited Successfully.");
+        } else {
+        	mav.addObject("message", "Error encountered while deposit, please try again later.");
+        }
+    	return mav;
+
+	}
 
 	@RequestMapping(value = "/Reg", method = RequestMethod.GET)
 	public ModelAndView Reg() {
@@ -120,13 +137,28 @@ public class HomeController extends JDBC{
 	}
 
 	@RequestMapping(value = "/Withd", method = RequestMethod.GET)
-	public ModelAndView Withd(@RequestParam String Fname, String Accttype, int withdamt, HttpServletRequest request) {
+	public ModelAndView Withd(HttpServletRequest request) {
+		System.out.println("in Withd");
+		//HttpSession session = request.getSession();
+		//String userid = (String) session.getAttribute("userid");
+	    ModelAndView mav = new ModelAndView("Withd");
+ 	    return mav;
+	}
+	@RequestMapping(value = "/Withd", method = RequestMethod.POST)
+	public ModelAndView Withd(@RequestParam Map<String, String> reqPar, HttpServletRequest request) {
 		System.out.println("in Withd");
 		HttpSession session = request.getSession();
 		String userid = (String) session.getAttribute("userid");
+		String Accttype = reqPar.get("Accttype");
+		int withdamt = Integer.parseInt(reqPar.get("withdamt"));
 		boolean val = JDBC.withd(userid, Accttype, withdamt);
 	    ModelAndView mav = new ModelAndView("Withd");
- 	    return mav;
+     	if (val == true) {
+     	    mav.addObject("message", "Amount Withdrawn Successfully.");
+        } else {
+        	mav.addObject("message", "Error encountered while withdraw, please check the withdraw amount.");
+        }
+    	return mav;
 	}
 
 	@RequestMapping(value = "/Xfr", method = RequestMethod.GET)

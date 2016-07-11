@@ -23,15 +23,18 @@
 						<td align="center"><input type="text" name="userid" value=<%=userid%> style="width: 162px; "></td>
 					</tr> --%>
 					<tr>
+						<td align="Left"> Name : </td>
 						<td align="center"><input type="text" name="fname" value=<%=fname%> style="width: 162px; "></td>
 					</tr>
 					<tr>
+						<td align="Left"> Account Type : </td>
 						<td align="center"><select name="Accttype" style="width: 162px; ">
   							<option value="C">Current</option>
 							<option value="S">Savings</option>
 						</select></td>
 					</tr>
 					<tr>
+						<td align="Left"> Balance Amount ($) : </td>
 						<td align="center"><input type="text" name="Balance" value="${Bal}" autofocus="autofocus" style="width: 162px; "></td>
 					</tr>
 				</table>

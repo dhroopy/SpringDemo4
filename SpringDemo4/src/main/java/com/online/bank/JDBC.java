@@ -229,6 +229,84 @@ public class JDBC{
 		return false;
 	}// end main
 
+	public static boolean depo(String un, String Accttype, int depo) {
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement stmt1 = null;
+		PreparedStatement stmt2 = null;
+		System.out.println("IN JDBC Class");
+		try {
+				System.out.println("Loading JDBC Drivers");
+			Class.forName(JDBC_DRIVER);
+				System.out.println("Connecting to database...");
+			conn = (Connection) DriverManager.getConnection(DB_URL, USER, PASS);
+				System.out.println("Accessing DB...");
+			stmt = (Statement) conn.createStatement();
+			String select = "Select Userid, Acct, Accttype, Bal from AMNA Join AMBS on AMNA.CustID=AMBS.CustID where (Userid='"+ un +"' and Accttype='"+Accttype+"');";
+				System.out.println(select);
+			ResultSet rs = stmt.executeQuery(select);
+			while(rs.next())
+			{
+				System.out.println("Executing the Query");
+				String Userid = rs.getString("Userid");
+				String Acct = rs.getString("Acct");
+				String Accttyp = rs.getString("Accttype");
+				int Bal = rs.getInt("Bal");
+				if (Userid.equals(un) && Accttyp.equals(Accttype)) {
+						int Bal2 = Bal + depo;
+						String insert = "UPDATE AMBS SET `Bal`='" + Bal2 +" ' WHERE `Acct`='"+ Acct +"';";
+						System.out.println(insert);
+						stmt1 = (PreparedStatement) conn.prepareStatement(insert);
+						stmt1.executeUpdate();
+						stmt1.close();
+	
+						String insert2 = "INSERT INTO ARTD (`Acct`, `TxnType`, `TxnAmt`, `Bal`, `PrevBal`) VALUES ('"+ Acct +"', 'D', '"+ depo +"', '"+ Bal2 +"', '"+ Bal +"');";
+						System.out.println(insert2);
+						stmt2 = (PreparedStatement) conn.prepareStatement(insert2);
+						stmt2.executeUpdate();
+						stmt2.close();
+						return true;
+				}
+			}
+			// STEP 6: Clean-up environment
+			rs.close();
+			stmt.close();
+
+			conn.close();
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (stmt1 != null)
+					stmt1.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (stmt2 != null)
+					stmt2.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+		return false;
+	}// end main
+
 	public static boolean mmvali(String un, String mmn) {
 		Connection conn = null;
 		Statement stmt = null;
