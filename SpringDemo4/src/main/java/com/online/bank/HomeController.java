@@ -144,6 +144,7 @@ public class HomeController extends JDBC{
 	    ModelAndView mav = new ModelAndView("Withd");
  	    return mav;
 	}
+	
 	@RequestMapping(value = "/Withd", method = RequestMethod.POST)
 	public ModelAndView Withd(@RequestParam Map<String, String> reqPar, HttpServletRequest request) {
 		System.out.println("in Withd");
@@ -162,8 +163,29 @@ public class HomeController extends JDBC{
 	}
 
 	@RequestMapping(value = "/Xfr", method = RequestMethod.GET)
-	public ModelAndView Xfr() {
+	public ModelAndView Xfr(HttpServletRequest request) {
+		System.out.println("in Xfr");
 	    ModelAndView mav = new ModelAndView("Xfr");
+ 	    return mav;
+	}
+	
+	@RequestMapping(value = "/Xfr", method = RequestMethod.POST)
+	public ModelAndView Xfr(@RequestParam Map<String, String> reqPar, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String userid = (String) session.getAttribute("userid");
+		String SAccttype = reqPar.get("SAccttype");
+		String DAccttype = reqPar.get("DAccttype");
+		int Xframt = Integer.parseInt(reqPar.get("Xframt"));
+		String memo = reqPar.get("memo");
+		int val = JDBC.xfr(userid, SAccttype, DAccttype, Xframt, memo);
+		ModelAndView mav = new ModelAndView("Xfr");
+		switch (val) {
+			case 0: mav.addObject("message", "Money transfer successful."); break;
+			case 1: mav.addObject("message", "You do not have sufficient fund to transfer."); break;
+			case 2: mav.addObject("message", "Source Account not found"); break;
+			case 3: mav.addObject("message", "Destination Account not found"); break;
+			case 4: mav.addObject("message", "Money transfer unsuccessful, please try again later."); break;
+		}
  	    return mav;
 	}
 

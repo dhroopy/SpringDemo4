@@ -12,7 +12,7 @@
 
 <fieldset>
 <div align="center">
-			<form name="Info" method="post">
+			<form name="Info" method="post" action="Xfr">
 				<table border=0 style="background-color: H0080FF80;">
 					<tr>
 						<td colspan=2 align="center" style="font-weight: bold; font-size: 20pt;" align="center"> <b> Balance Transfer</b> </td>
@@ -21,16 +21,13 @@
 						<td colspan=2></td>
 					</tr>
 					<tr>
-						<td align="center"><input type="text" name="userid" value=<%=userid%> style="width: 162px; "></td>
-					</tr>
-					<tr>
 						<td align="center"><input type="text" name="fname" value=<%=fname%> style="width: 162px; "></td>
 					</tr>
 					<tr>
 						<td align="center"> Source Account</td>
 					</tr>
 					<tr>
-						<td align="center"><select name="Accttype" style="width: 162px; ">
+						<td align="center"><select name="SAccttype" style="width: 162px; ">
   							<option value="C">Current</option>
 							<option value="S">Savings</option>
 						</select></td>
@@ -39,7 +36,7 @@
 						<td align="center"> Destination Account</td>
 					</tr>
 					<tr>
-						<td align="center"><select name="Accttype" style="width: 162px; ">
+						<td align="center"><select name="DAccttype" style="width: 162px; ">
   							<option value="S">Savings</option>
   							<option value="C">Current</option>
 						</select></td>
@@ -51,7 +48,10 @@
 						<td align="center"><input type="text" name="memo" placeholder="Transfer memo" autofocus="autofocus" style="width: 162px; "></td>
 					</tr>
 					<tr>
-						<td align="center"><input type="button" value="Transfer Amount" onclick="return validation();" style="width: 162px; "></td>
+						<td align="center"><input type="Submit" value="Transfer Amount" style="width: 162px; "></td>
+					</tr>
+					<tr>
+						<td align="center"><div id="demo">${message}</div></td>
 					</tr>
 				</table>
 			</form>

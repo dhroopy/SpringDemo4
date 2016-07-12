@@ -25,7 +25,7 @@ public class JDBC{
 	public static boolean loginvali(String uname, String pw, HttpServletRequest request) {
 		Connection conn = null;
 		Statement stmt = null;
-		System.out.println("IN JDBC Class");
+		System.out.println("IN loginvali");
 		try {
 			// STEP 2: Register JDBC driver
 			System.out.println("Loading JDBC Drivers");
@@ -99,7 +99,7 @@ public class JDBC{
 		Connection conn = null;
 		Statement stmt = null;
 		String [] Retval = new String[2];
-		System.out.println("IN JDBC Class");
+		System.out.println("IN Balin");
 		try {
 				System.out.println("Loading JDBC Drivers");
 			Class.forName(JDBC_DRIVER);
@@ -151,7 +151,7 @@ public class JDBC{
 		Statement stmt = null;
 		PreparedStatement stmt1 = null;
 		PreparedStatement stmt2 = null;
-		System.out.println("IN JDBC Class");
+		System.out.println("IN withd");
 		try {
 				System.out.println("Loading JDBC Drivers");
 			Class.forName(JDBC_DRIVER);
@@ -229,12 +229,149 @@ public class JDBC{
 		return false;
 	}// end main
 
+	public static int xfr(String un, String SAccttype, String DAccttype, int Xframt, String memo) {
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement stmt1 = null;
+		PreparedStatement stmt2 = null;
+		PreparedStatement stmt3 = null;
+		PreparedStatement stmt4 = null;
+		int val = 0;
+		int Bal = 0;
+		int SBal = 0;
+		int DBal = 0;
+		int Bal2 = 0;
+		int Bal3 = 0;
+		String SAcct = null; 
+		String DAcct = null;
+		System.out.println("IN xfr");
+		try {
+				System.out.println("Loading JDBC Drivers");
+			Class.forName(JDBC_DRIVER);
+				System.out.println("Connecting to database...");
+			conn = (Connection) DriverManager.getConnection(DB_URL, USER, PASS);
+				System.out.println("Accessing DB...");
+			stmt = (Statement) conn.createStatement();
+			String select = "Select Userid, Acct, Accttype, Bal from AMNA Join AMBS on AMNA.CustID=AMBS.CustID where (Userid='"+ un +"');";
+				System.out.println(select);
+			ResultSet rs = stmt.executeQuery(select);
+			while(rs.next())
+			{
+				System.out.println("Executing the Query");
+				String Userid = rs.getString("Userid");
+				String Acct = rs.getString("Acct");
+				String Accttyp = rs.getString("Accttype");
+				Bal = rs.getInt("Bal");
+				System.out.println("Result :" + Userid + Acct + Accttyp + Bal);
+				if (Userid.equals(un)) {
+					if (Accttyp.equals(SAccttype)) {
+						SAcct = Acct;
+						SBal = Bal;
+						if (SBal >= Xframt) {
+							Bal2 = SBal - Xframt;
+						} else {
+							val = 1; //nsf
+							System.out.println("Val :" + val);
+						}
+					}
+					if(Accttyp.equals(DAccttype)) {
+						DAcct = Acct;
+						DBal = Bal;
+						Bal3 = DBal + Xframt;
+					} 
+				}
+			}
+			if (SAcct == null) {
+				val = 2; //"srcntfnd";
+				System.out.println("Val :" + val);
+			}
+			if (DAcct == null) {
+				val = 3; //"destntfnd";
+				System.out.println("Val :" + val);
+			}
+			if (val == 0) {
+				String insert = "UPDATE AMBS SET `Bal`='" + Bal2 +" ' WHERE `Acct`='"+ SAcct +"';";
+				System.out.println(insert);
+				stmt1 = (PreparedStatement) conn.prepareStatement(insert);
+				stmt1.executeUpdate();
+				stmt1.close();
+
+				String insert2 = "UPDATE AMBS SET `Bal`='" + Bal3 +" ' WHERE `Acct`='"+ DAcct +"';";
+				System.out.println(insert2);
+				stmt2 = (PreparedStatement) conn.prepareStatement(insert2);
+				stmt2.executeUpdate();
+				stmt2.close();
+				
+				String insert3 = "INSERT INTO ARTD (`Acct`, `TxnType`, `TxnAmt`, `Bal`, `PrevBal`, `Xfrmemo`) VALUES ('"+ SAcct +"', 'XW', '"+ Xframt +"', '"+ Bal2 +"', '"+ SBal +"','"+memo+"');";
+				System.out.println(insert3);
+				stmt3 = (PreparedStatement) conn.prepareStatement(insert3);
+				stmt3.executeUpdate();
+				stmt3.close();
+
+				String insert4 = "INSERT INTO ARTD (`Acct`, `TxnType`, `TxnAmt`, `Bal`, `PrevBal`, `Xfrmemo`) VALUES ('"+ DAcct +"', 'XD', '"+ Xframt +"', '"+ Bal3 +"', '"+ DBal +"','"+memo+"');";
+				System.out.println(insert4);
+				stmt4 = (PreparedStatement) conn.prepareStatement(insert4);
+				stmt4.executeUpdate();
+				stmt4.close();
+			}
+			// STEP 6: Clean-up environment
+			rs.close();
+			stmt.close();
+			stmt1.close();
+			stmt2.close();
+			stmt3.close();
+			stmt4.close();
+			conn.close();
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (stmt1 != null)
+					stmt1.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (stmt2 != null)
+					stmt2.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (stmt3 != null)
+					stmt3.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (stmt4 != null)
+					stmt4.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+		return val;
+	}// end main
+
 	public static boolean depo(String un, String Accttype, int depo) {
 		Connection conn = null;
 		Statement stmt = null;
 		PreparedStatement stmt1 = null;
 		PreparedStatement stmt2 = null;
-		System.out.println("IN JDBC Class");
+		System.out.println("IN depo");
 		try {
 				System.out.println("Loading JDBC Drivers");
 			Class.forName(JDBC_DRIVER);
@@ -371,7 +508,7 @@ public class JDBC{
 		PreparedStatement stmt1 = null;
 		PreparedStatement stmt2 = null;
 		Statement stmt3 = null;
-		System.out.println("IN JDBC Class");
+		System.out.println("IN register");
 		try {
 			// STEP 2: Register JDBC driver
 			System.out.println("Loading JDBC Drivers");
@@ -446,7 +583,7 @@ public class JDBC{
 	public static boolean Admin() {
 		Connection conn = null;
 		Statement stmt = null;
-		System.out.println("IN JDBC Class");
+		System.out.println("IN Admin");
 		try {
 			// STEP 2: Register JDBC driver
 			System.out.println("Loading JDBC Drivers");
