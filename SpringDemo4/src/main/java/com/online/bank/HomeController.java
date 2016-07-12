@@ -139,8 +139,6 @@ public class HomeController extends JDBC{
 	@RequestMapping(value = "/Withd", method = RequestMethod.GET)
 	public ModelAndView Withd(HttpServletRequest request) {
 		System.out.println("in Withd");
-		//HttpSession session = request.getSession();
-		//String userid = (String) session.getAttribute("userid");
 	    ModelAndView mav = new ModelAndView("Withd");
  	    return mav;
 	}

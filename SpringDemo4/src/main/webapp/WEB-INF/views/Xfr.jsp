@@ -15,6 +15,7 @@
 			<form name="Info" method="post" action="Xfr">
 				<table border=0 style="background-color: H0080FF80;">
 					<tr>
+					
 						<td colspan=2 align="center" style="font-weight: bold; font-size: 20pt;" align="center"> <b> Balance Transfer</b> </td>
 					</tr>
 					<tr>
