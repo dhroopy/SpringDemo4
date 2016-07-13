@@ -130,12 +130,25 @@ public class HomeController extends JDBC{
  	    return mav;
 	}
 
-	@RequestMapping(value = "/Txn", method = RequestMethod.GET)
-	public ModelAndView Txn() {
-	    ModelAndView mav = new ModelAndView("Txn");
+	@RequestMapping(value = "/Txn", method = RequestMethod.POST)
+	public ModelAndView Txn(@RequestParam Map<String, String> reqPar, HttpServletRequest request) {
+		System.out.println("in Txn");
+		HttpSession session = request.getSession();
+		String userid = (String) session.getAttribute("userid");
+		String Accttype = reqPar.get("Accttype");
+		String [][] Val = JDBC.Txn(userid, Accttype);
+		System.out.println(Val);
+		ModelAndView mav = new ModelAndView("Txn");
+	    mav.addObject("message", Val.toString());
  	    return mav;
 	}
 
+	@RequestMapping(value = "/Activity", method = RequestMethod.GET)
+	public ModelAndView Activity() {
+	    ModelAndView mav = new ModelAndView("Activity");
+ 	    return mav;
+	}
+	
 	@RequestMapping(value = "/Withd", method = RequestMethod.GET)
 	public ModelAndView Withd(HttpServletRequest request) {
 		System.out.println("in Withd");

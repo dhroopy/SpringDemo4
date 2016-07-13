@@ -24,7 +24,9 @@
 						<td align="center" width="20%">Balance</td>
 						<td align="center" width="20%">Date & Time</td>
 					</tr>
-				
+					<tr>
+						<td align="center"><div id="demo">${message}</div></td>
+					</tr>
 				</table>
 			</form>
 			

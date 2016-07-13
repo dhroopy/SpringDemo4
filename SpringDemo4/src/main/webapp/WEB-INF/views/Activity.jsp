@@ -13,7 +13,7 @@
 <div align="center">
 	<h2>Welcome <%=fname + " " + lname%></h2>
 	Please select an account.
-	<form name="sec" method="post" action="Balin">
+	<form name="sec" method="post" action="Txn">
 		<table border=0 style="background-color: H0080FF80;">
 			<tr>
 				<td align="center"><input type="text" name="userid" value=<%=name%> style="width: 162px; "></td>
@@ -25,10 +25,10 @@
 				</select></td>
 			</tr>
 			<tr>
-				<td align="center"><input type="submit" Value="Check Balance"/></td>
+				<td align="center"><input type="submit" Value="See Activity"/></td>
 			</tr>
 			<tr>
-				<td align="center"><div id="demo">${message}</div></td>
+				<td align="center" colspan=5><div id="demo">${message}</div></td>
 			</tr>
 		</table>	
 	</form>

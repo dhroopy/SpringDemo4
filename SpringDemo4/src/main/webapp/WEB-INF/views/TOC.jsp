@@ -30,7 +30,7 @@
 						<td align="left"><a href="Xfr" target="iframe_b"> X Transfers</a></td>
 					</tr>
 					<tr>	
-						<td align="left"><a href="Txn" target="iframe_b"> X Activity</a></td>
+						<td align="left"><a href="Activity" target="iframe_b"> X Activity</a></td>
 					</tr>
 					<tr>	
 						<td align="left"><a href="Logout" target="iframe"> X Logout</a></td>
