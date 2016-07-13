@@ -149,7 +149,7 @@ public class JDBC{
 	public static String[][] Txn(String un, String Accttype) {
 		Connection conn = null;
 		Statement stmt = null;
-		String [][] Val = new String[9][4];
+		String [][] Val = new String[10][5];
 		System.out.println("IN Balin");
 		try {
 				System.out.println("Loading JDBC Drivers");
@@ -161,17 +161,17 @@ public class JDBC{
 			String select = "Select AMBS.Acct, Accttype, TxnAmt, ARTD.Bal, Txndate from AMNA, AMBS, ARTD where AMNA.CustID=AMBS.CustID and AMBS.Acct=ARTD.Acct and (Userid='"+ un +"' and Accttype='"+Accttype+"');";
 			System.out.println(select);
 			ResultSet rs = stmt.executeQuery(select);
-			for(int i=0;i<=9; i++) { 
-				while(rs.next())
-				{
-					System.out.println("Executing the Query");
-					Val[i][1] = rs.getString("Acct");
-					Val[i][2] = rs.getString("Accttype");
-					Val[i][3] = rs.getString("TxnAmt");
-					Val[i][4] = rs.getString("Bal");
-					Val[i][5] = rs.getString("Txndate");
-					System.out.println(Val);
-				}
+			System.out.println("Executing the Query");
+			int i = 0;
+			while(rs.next())
+			{
+				Val[i][0] = rs.getString("Acct");
+				Val[i][1] = rs.getString("Accttype");
+				Val[i][2] = rs.getString("TxnAmt");
+				Val[i][3] = rs.getString("Bal");
+				Val[i][4] = rs.getString("Txndate");
+				System.out.println(Val[i][0]);
+				i++;
 			}
 			// STEP 6: Clean-up environment
 			rs.close();

@@ -137,9 +137,11 @@ public class HomeController extends JDBC{
 		String userid = (String) session.getAttribute("userid");
 		String Accttype = reqPar.get("Accttype");
 		String [][] Val = JDBC.Txn(userid, Accttype);
-		System.out.println(Val);
+		for(int i=0; i< Val.length; i++) {
+			System.out.println(Val[i]);
+		}
 		ModelAndView mav = new ModelAndView("Txn");
-	    mav.addObject("message", Val.toString());
+	    mav.addObject("message", Val);
  	    return mav;
 	}
 
