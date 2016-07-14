@@ -28,7 +28,7 @@
 				<td align="center"><input type="submit" Value="See Activity"/></td>
 			</tr>
 			<tr>
-				<td align="center" colspan=5><div id="demo">${message}</div></td>
+				<td align="center"><div id="demo">${message}</div></td>
 			</tr>
 		</table>	
 	</form>

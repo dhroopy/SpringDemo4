@@ -1,5 +1,6 @@
 package com.online.bank;
 
+import java.util.LinkedList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -136,10 +137,8 @@ public class HomeController extends JDBC{
 		HttpSession session = request.getSession();
 		String userid = (String) session.getAttribute("userid");
 		String Accttype = reqPar.get("Accttype");
-		String [][] Val = JDBC.Txn(userid, Accttype);
-		for(int i=0; i< Val.length; i++) {
-			System.out.println(Val[i]);
-		}
+		LinkedList<LinkedList<String>> Val = JDBC.Txn(userid, Accttype);
+		System.out.println("in hc" + Val);
 		ModelAndView mav = new ModelAndView("Txn");
 	    mav.addObject("message", Val);
  	    return mav;

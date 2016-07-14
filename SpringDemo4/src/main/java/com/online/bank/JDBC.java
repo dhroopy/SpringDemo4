@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -146,11 +147,12 @@ public class JDBC{
 		//return null;
 	}// end main
 
-	public static String[][] Txn(String un, String Accttype) {
+	public static LinkedList<LinkedList<String>> Txn(String un, String Accttype) {
 		Connection conn = null;
 		Statement stmt = null;
-		String [][] Val = new String[10][5];
-		System.out.println("IN Balin");
+		LinkedList<LinkedList<String>> ValR = new LinkedList<LinkedList<String>>();
+		LinkedList<String> ValC = new LinkedList<String>();
+		System.out.println("IN Txn");
 		try {
 				System.out.println("Loading JDBC Drivers");
 			Class.forName(JDBC_DRIVER);
@@ -165,14 +167,21 @@ public class JDBC{
 			int i = 0;
 			while(rs.next())
 			{
-				Val[i][0] = rs.getString("Acct");
-				Val[i][1] = rs.getString("Accttype");
-				Val[i][2] = rs.getString("TxnAmt");
-				Val[i][3] = rs.getString("Bal");
-				Val[i][4] = rs.getString("Txndate");
-				System.out.println(Val[i][0]);
-				i++;
+				ValC.add(rs.getString("Acct"));
+				ValC.add(rs.getString("Accttype"));
+				ValC.add(rs.getString("TxnAmt"));
+				ValC.add(rs.getString("Bal"));
+				ValC.add(rs.getString("Txndate"));
+				/*ValR.add(ValC);
+				System.out.println(ValR);
+				ValC.remove(rs.getString("Acct"));
+				ValC.remove(rs.getString("Accttype"));
+				ValC.remove(rs.getString("TxnAmt"));
+				ValC.remove(rs.getString("Bal"));
+				ValC.remove(rs.getString("Txndate"));*/
 			}
+			ValR.add(ValC);
+			System.out.println(ValR);
 			// STEP 6: Clean-up environment
 			rs.close();
 			stmt.close();
@@ -197,7 +206,7 @@ public class JDBC{
 				se.printStackTrace();
 			} // end finally try
 		} // end try
-		return Val;
+		return ValR;
 		//return null;
 	}// end main
 

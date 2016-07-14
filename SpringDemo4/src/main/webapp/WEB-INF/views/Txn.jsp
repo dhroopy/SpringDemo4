@@ -25,7 +25,7 @@
 						<td align="center" width="20%">Date & Time</td>
 					</tr>
 					<tr>
-						<td align="center"><div id="demo">${message}</div></td>
+						<td align="center" colspan=5><div id="demo">${message}</div></td>
 					</tr>
 				</table>
 			</form>
