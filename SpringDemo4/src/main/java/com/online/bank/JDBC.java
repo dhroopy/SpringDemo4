@@ -96,6 +96,68 @@ public class JDBC{
 		return false;
 	}// end main
 
+	public static boolean adloginvali(String uname, String pw) {
+		Connection conn = null;
+		Statement stmt = null;
+		System.out.println("IN adloginvali");
+		try {
+			// STEP 2: Register JDBC driver
+			System.out.println("Loading JDBC Drivers");
+			Class.forName(JDBC_DRIVER);
+
+			// STEP 3: Open a connection
+			System.out.println("Connecting to database...");
+			conn = (Connection) DriverManager.getConnection(DB_URL, USER, PASS);
+
+			// STEP 4: Execute a query
+			System.out.println("Accessing DB...");
+			stmt = (Statement) conn.createStatement();
+
+			String select = "Select Userid, Pass, Ctype from AMNA where Userid='" + uname + "'";
+			System.out.println(select);
+
+			ResultSet rs = stmt.executeQuery(select);
+			// STEP 5: Extract data from result set
+			System.out.println("Executing the Query");
+			while (rs.next()) {
+				// Retrieve by column name
+				String userid = rs.getString("Userid");
+				String pass = rs.getString("Pass");
+				String Ctype = rs.getString("Ctype");
+				System.out.println("Admin " + userid + Ctype);
+				if (uname.equals(userid) && pw.equals(pass) && Ctype.equals("A")) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			// STEP 6: Clean-up environment
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+		return false;
+	}// end main
+
 	public static String[] Balin(String un, String Accttype) {
 		Connection conn = null;
 		Statement stmt = null;
@@ -147,10 +209,10 @@ public class JDBC{
 		//return null;
 	}// end main
 
-	public static LinkedList<LinkedList<String>> Txn(String un, String Accttype) {
+	public static LinkedList<String> Txn(String un, String Accttype) {
 		Connection conn = null;
 		Statement stmt = null;
-		LinkedList<LinkedList<String>> ValR = new LinkedList<LinkedList<String>>();
+		//LinkedList<LinkedList<String>> ValR = new LinkedList<LinkedList<String>>();
 		LinkedList<String> ValC = new LinkedList<String>();
 		System.out.println("IN Txn");
 		try {
@@ -164,7 +226,7 @@ public class JDBC{
 			System.out.println(select);
 			ResultSet rs = stmt.executeQuery(select);
 			System.out.println("Executing the Query");
-			int i = 0;
+			//int i = 0;
 			while(rs.next())
 			{
 				ValC.add(rs.getString("Acct"));
@@ -180,8 +242,8 @@ public class JDBC{
 				ValC.remove(rs.getString("Bal"));
 				ValC.remove(rs.getString("Txndate"));*/
 			}
-			ValR.add(ValC);
-			System.out.println(ValR);
+			//ValR.add(ValC);
+			System.out.println(ValC);
 			// STEP 6: Clean-up environment
 			rs.close();
 			stmt.close();
@@ -206,7 +268,61 @@ public class JDBC{
 				se.printStackTrace();
 			} // end finally try
 		} // end try
-		return ValR;
+		return ValC;
+		//return null;
+	}// end main
+
+	public static LinkedList<String> Adws() {
+		Connection conn = null;
+		Statement stmt = null;
+		//LinkedList<LinkedList<String>> ValR = new LinkedList<LinkedList<String>>();
+		LinkedList<String> ValC = new LinkedList<String>();
+		System.out.println("IN Adws");
+		try {
+				System.out.println("Loading JDBC Drivers");
+			Class.forName(JDBC_DRIVER);
+				System.out.println("Connecting to database...");
+			conn = (Connection) DriverManager.getConnection(DB_URL, USER, PASS);
+				System.out.println("Accessing DB...");
+			stmt = (Statement) conn.createStatement();
+			String select = "Select CONCAT(fname, ' ', lname) as Name, Userid, Acct, Accttype, Approval from AMNA, AMBS where AMNA.CustID=AMBS.CustID and (Approval='N');";
+			System.out.println(select);
+			ResultSet rs = stmt.executeQuery(select);
+			System.out.println("Executing the Query");
+			while(rs.next())
+			{
+				ValC.add(rs.getString("Name"));
+				ValC.add(rs.getString("Userid"));
+				ValC.add(rs.getString("Acct"));
+				ValC.add(rs.getString("Accttype"));
+				ValC.add(rs.getString("Approval"));
+			}
+			System.out.println(ValC);
+			// STEP 6: Clean-up environment
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+		return ValC;
 		//return null;
 	}// end main
 

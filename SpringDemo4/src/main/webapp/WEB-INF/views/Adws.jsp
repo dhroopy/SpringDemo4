@@ -13,7 +13,7 @@
 			<form name="Info" method="post">
 				<table border=1 style="background-color: H0080FF80;">
 					<tr>
-						<td colspan=2 align="center" style="font-weight: bold; font-size: 20pt;" align="center"> <b> Pending Approvals </b> </td>
+						<td colspan=5 align="center" style="font-weight: bold; font-size: 20pt;" align="center"> <b> Pending Approvals </b> </td>
 					</tr>
 					<tr>
 						<td align="center" width="16.66%">Account Holder</td>
@@ -23,7 +23,9 @@
 						<!-- <td align="center" width="16.66%">Lock / Unlock</td> -->
 						<td align="center" width="16.66%">Approve New</td>
 					</tr>
-				
+					<tr>
+						<td colspan=5 align="center"><div id="demo">${message}</div></td>
+					</tr>
 				</table>
 			</form>
 			

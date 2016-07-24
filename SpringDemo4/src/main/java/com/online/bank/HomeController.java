@@ -137,10 +137,16 @@ public class HomeController extends JDBC{
 		HttpSession session = request.getSession();
 		String userid = (String) session.getAttribute("userid");
 		String Accttype = reqPar.get("Accttype");
-		LinkedList<LinkedList<String>> Val = JDBC.Txn(userid, Accttype);
-		System.out.println("in hc" + Val);
+		LinkedList<String> Val = JDBC.Txn(userid, Accttype);
+		int size = Val.size();
+		int row = size/5;
+		System.out.println("Total values " + size + ", # of rows " + row);
 		ModelAndView mav = new ModelAndView("Txn");
-	    mav.addObject("message", Val);
+		if (Val.isEmpty()) {
+			mav.addObject("message", "There are no transaction as of now");
+		} else {
+			mav.addObject("message", Val);
+		}
  	    return mav;
 	}
 
@@ -228,27 +234,38 @@ public class HomeController extends JDBC{
 	}
 
 	@RequestMapping(value = "/Admin", method = RequestMethod.GET)
-	public ModelAndView AdLogin() {
-	    ModelAndView mav = new ModelAndView("AdLogin");
- 	    return mav;
+	public ModelAndView Ad() {
+		ModelAndView mav = new ModelAndView("AdLogin");
+        return mav;
 	}
-
+	
 	@RequestMapping(value = "/Adws", method = RequestMethod.POST)
-	public ModelAndView Adws(@RequestParam Map<String, String> reqPar, HttpServletRequest request) {
-		System.out.println("in Admin WS");
-		String userid = reqPar.get("aduserid");
-		String pass = reqPar.get("adpass");
-		if ((userid.equals("d")) && pass.equals("d")) {
-			boolean val = JDBC.Admin();
-			ModelAndView mav = new ModelAndView("Adws");
-	 	    //mav.addObject("Entry", Entry);
-			return mav;
-		} else {
-	 		ModelAndView mav = new ModelAndView("AdLogin");
-	 		mav.addObject("message", "Invalid credential Admin!! come on!!");
- 	    return mav;
-		}
+	public ModelAndView AdLog(@RequestParam Map<String, String> reqPar, HttpServletRequest request) {
+		System.out.println("in Adws");
+		String userid = reqPar.get("userid");
+		String pass = reqPar.get("pass");
+		boolean val = JDBC.adloginvali(userid, pass);
+		
+     	if (val == true) {
+     		LinkedList<String> Val = JDBC.Adws();
+     		System.out.println(Val);
+     	    ModelAndView mav = new ModelAndView("Adws");
+     	   if (Val.isEmpty()) {
+     		   mav.addObject("message", "There are no transaction as of now");
+     	   } else {
+     		   mav.addObject("message", Val);
+     	   }
+     	    return mav;
+        } else {
+        	ModelAndView mav = new ModelAndView("AdLogin");
+        	mav.addObject("message", "Admin credentials are invalid, please reenter");
+        	return mav;
+        }
 	}
-
-
-}
+	
+	/*@RequestMapping(value = "/Adws", method = RequestMethod.POST)
+	public ModelAndView Adws(@RequestParam Map<String, String> reqPar, HttpServletRequest request) {
+			ModelAndView mav = new ModelAndView("Adws");
+			return mav;
+		}*/
+	}

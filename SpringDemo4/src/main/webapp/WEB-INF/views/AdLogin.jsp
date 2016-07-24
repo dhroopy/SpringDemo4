@@ -5,15 +5,6 @@
 </head>
 
 <body>
-
-<%
-String username=request.getParameter("username");
-String password=request.getParameter("password");
-if (null == username || username.trim().isEmpty())
-                username = "";
-if (null == password || password.trim().isEmpty())
-                password = "";
-%>
 	<fieldset>
 		<div align="center">
 			<form name="Info" method="post">
@@ -25,10 +16,10 @@ if (null == password || password.trim().isEmpty())
 						<td colspan=2></td>
 					</tr>
 					<tr>
-						<td align="center"><input type="text" name="aduserid" placeholder="Username" value='<%=username%>' autofocus="autofocus" style="width: 162px; "></td>
+						<td align="center"><input type="text" name="userid" placeholder="Username" autofocus="autofocus" style="width: 162px; "></td>
 					</tr>
 					<tr>
-						<td align="center"><input type="password" name="adpass" placeholder="Password" value='<%=password%>' style="width: 162px; "></td>
+						<td align="center"><input type="password" name="pass" placeholder="Password" style="width: 162px; "></td>
 					</tr>
 					<tr>
 						<td align="center"><input type="button" value="Sign In" onclick="return validation();" style="width: 162px; "></td>
@@ -44,18 +35,18 @@ if (null == password || password.trim().isEmpty())
 	
 	<script>
 		function validation() {
-			var userid = document.Info.aduserid.value;
-			var pass = document.Info.adpass.value;
+			var userid = document.Info.userid.value;
+			var pass = document.Info.pass.value;
 			
 			if (userid=="") {
 		    		alert("Please enter the User name.")
-		    		document.Info.aduserid.focus();
+		    		document.Info.userid.focus();
 		    		return false;
 		     	}
 
 		    if (pass=="") {
 		     		alert("Please enter the password.")
-		     		document.Info.adpass.focus();
+		     		document.Info.pass.focus();
 		     	    return false;
 		     	}
 		     	    
