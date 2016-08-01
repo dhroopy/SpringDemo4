@@ -9,65 +9,73 @@
 <body>
 <fieldset>
 <div align="center">
-			<form name="Info" method="post">
-				<table border=1 style="background-color: H0080FF80;">
-					<tr>
-						<td colspan=5 align="center" style="font-weight: bold; font-size: 20pt;" align="center"> <b> Transaction Summary</b> </td>
-					</tr>
-					<tr>
-						<td align="center" width="20%">Account #</td>
-						<td align="center" width="20%">Type</td>
-						<td align="center" width="20%">Amount</td>
-						<td align="center" width="20%">Balance</td>
-						<td align="center" width="20%">Date & Time</td>
-					</tr>
-				    <tr>
-						<td align="center" colspan=5><div id="demo">${message}</div></td>
-					</tr>				
-				    <tr>
-						<td align="center" colspan=5><div id="demo">${message1}</div></td>
-					</tr>				
-				</table>
-<!-- 				<table id="myTableData"  border="1">
-				    <tr>
-				        <td><b>Account #</b></td>
-				        <td><b>Type</b></td>
-				        <td><b>Amount</b></td>
-				        <td><b>Balance</b></td>
-				        <td><b>Date & Time</b></td>
-				    </tr>
-	
-				</table>
- -->			</form>
-			
-		</div>
+<h1> Transaction Summary </h1>
+	<form name="Info" method="post">
+		<script>addTable();</script>
+		<div id="myDynamicTable"></div>
+	</form>
+</div>
 </fieldset>
 
 <Script>
-function addTable() {
-     
-    var myTableDiv = document.getElementById("myDynamicTable");
-     
-    var table = document.createElement('TABLE');
-    table.border='1';
-   
-    var tableBody = document.createElement('TBODY');
-    table.appendChild(tableBody);
-     
-    for (var i=0; i<3; i++){
-       var tr = document.createElement('TR');
-       tableBody.appendChild(tr);
-      
-       for (var j=0; j<5; j++){
-           var td = document.createElement('TD');
-           //td.width='75';
-           td.appendChild(document.createTextNode("our data here"));
-           tr.appendChild(td);
-       }
-    }
-    myTableDiv.appendChild(table);
-   
-}
-</Script>
+	function addTable() {
+		alert ("in Here");
+		//system.out.println("in here");
+	   /*  var myTableDiv = document.getElementById("myDynamicTable");
+	     
+	    var table = document.createElement('TABLE');
+	    table.border='1';
+	    	   
+	    var tableBody = document.createElement('TBODY');
+	    table.appendChild(tableBody);
+
+	    var tr = document.createElement('TR');
+	    tableBody.appendChild(tr);
+
+        var td = document.createElement('TD');
+        td.width="16.66%";
+       	td.appendChild(document.createTextNode("Account #"));
+        tr.appendChild(td);
+        var td = document.createElement('TD');
+        td.width="16.66%";
+       	td.appendChild(document.createTextNode("Account Type"));
+        tr.appendChild(td);
+        var td = document.createElement('TD');
+        td.width="16.66%";
+       	td.appendChild(document.createTextNode("Amount"));
+        tr.appendChild(td);
+        var td = document.createElement('TD');
+        td.width="16.66%";
+       	td.appendChild(document.createTextNode("Balance"));
+        tr.appendChild(td);
+        var td = document.createElement('TD');
+        td.width="16.66%";
+       	td.appendChild(document.createTextNode("Date & Time"));
+        tr.appendChild(td);
+
+	    var k = 0;
+	    var row = ${rc};
+	    var m1 = "${message}";
+	    var m2 = m1.length;
+	    var m3 = m1.substr(1,m2-2);  //To remove "["  & "]" from the string received.
+	 	var val = m3.split(",");
+	    //alert (val[0]);
+	    
+	    for (var i=0; i<row; i++){
+	       var tr = document.createElement('TR');
+	       tableBody.appendChild(tr);
+	      
+	       for (var j=0; j<5; j++){
+	           var td = document.createElement('TD');
+	           td.width="16.66%";
+	           //td.appendChild(document.createTextNode("Cell " + i + "," + j));
+	           td.appendChild(document.createTextNode(val[k]));
+	           tr.appendChild(td);
+	           k++;
+	       }
+	    }
+	    myTableDiv.appendChild(table); */
+	}
+</script>
 </body>
 </html>

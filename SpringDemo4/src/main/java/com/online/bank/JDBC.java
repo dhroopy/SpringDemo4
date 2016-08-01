@@ -68,7 +68,6 @@ public class JDBC{
 					return false;
 				}
 			}
-
 			// STEP 6: Clean-up environment
 			rs.close();
 			stmt.close();
@@ -96,7 +95,7 @@ public class JDBC{
 		return false;
 	}// end main
 
-	public static boolean adloginvali(String uname, String pw) {
+	public static boolean adloginvali(String uname, String pw, HttpServletRequest request) {
 		Connection conn = null;
 		Statement stmt = null;
 		System.out.println("IN adloginvali");
@@ -113,7 +112,7 @@ public class JDBC{
 			System.out.println("Accessing DB...");
 			stmt = (Statement) conn.createStatement();
 
-			String select = "Select Userid, Pass, Ctype from AMNA where Userid='" + uname + "'";
+			String select = "Select CONCAT(fname, ' ', lname) as Name, Userid, Pass, Ctype from AMNA where Userid='" + uname + "'";
 			System.out.println(select);
 
 			ResultSet rs = stmt.executeQuery(select);
@@ -124,7 +123,10 @@ public class JDBC{
 				String userid = rs.getString("Userid");
 				String pass = rs.getString("Pass");
 				String Ctype = rs.getString("Ctype");
+				String Name = rs.getString("Name");
 				System.out.println("Admin " + userid + Ctype);
+				HttpSession session = request.getSession();
+				session.setAttribute("Name", Name);
 				if (uname.equals(userid) && pw.equals(pass) && Ctype.equals("A")) {
 					return true;
 				} else {

@@ -6,30 +6,77 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Admin - Pending Action</title>
 </head>
-<body>
+<body onload="addTable();">
+<% String name = (String) session.getAttribute("Name");%>
 <%-- List<List<String>> Entry = request.getAttribute("entry");--%>
 <fieldset>
 <div align="center">
-			<form name="Info" method="post">
-				<table border=1 style="background-color: H0080FF80;">
-					<tr>
-						<td colspan=5 align="center" style="font-weight: bold; font-size: 20pt;" align="center"> <b> Pending Approvals </b> </td>
-					</tr>
-					<tr>
-						<td align="center" width="16.66%">Account Holder</td>
-						<td align="center" width="16.66%">User ID</td>
-						<td align="center" width="16.66%">Account #</td>
-						<td align="center" width="16.66%">Account Type</td>
-						<!-- <td align="center" width="16.66%">Lock / Unlock</td> -->
-						<td align="center" width="16.66%">Approve New</td>
-					</tr>
-					<tr>
-						<td colspan=5 align="center"><div id="demo">${message}</div></td>
-					</tr>
-				</table>
-			</form>
-			
-		</div>
+<h1> Pending Approvals </h1>
+	<h2>Welcome <%=name%></h2>
+	<form name="Info" method="post">
+		<script>addTable();</script>
+		<div id="myDynamicTable"></div>
+	</form>
+</div>
 </fieldset>
+<script>
+	function addTable() {
+		
+	    var myTableDiv = document.getElementById("myDynamicTable");
+	     
+	    var table = document.createElement('TABLE');
+	    table.border='1';
+	    	   
+	    var tableBody = document.createElement('TBODY');
+	    table.appendChild(tableBody);
+
+	    var tr = document.createElement('TR');
+	    tableBody.appendChild(tr);
+
+        var td = document.createElement('TD');
+        td.width="16.66%";
+       	td.appendChild(document.createTextNode("Account Holder"));
+        tr.appendChild(td);
+        var td = document.createElement('TD');
+        td.width="16.66%";
+       	td.appendChild(document.createTextNode("User ID"));
+        tr.appendChild(td);
+        var td = document.createElement('TD');
+        td.width="16.66%";
+       	td.appendChild(document.createTextNode("Account #"));
+        tr.appendChild(td);
+        var td = document.createElement('TD');
+        td.width="16.66%";
+       	td.appendChild(document.createTextNode("Account Type"));
+        tr.appendChild(td);
+        var td = document.createElement('TD');
+        td.width="16.66%";
+       	td.appendChild(document.createTextNode("Pending Approval"));
+        tr.appendChild(td);
+
+	    var k = 0;
+	    var row = ${rc};
+	    var m1 = "${message}";
+	    var m2 = m1.length;
+	    var m3 = m1.substr(1,m2-2);  //To remove "["  & "]" from the string received.
+	 	var val = m3.split(",");
+	    //alert (val[0]);
+	    
+	    for (var i=0; i<row; i++){
+	       var tr = document.createElement('TR');
+	       tableBody.appendChild(tr);
+	      
+	       for (var j=0; j<5; j++){
+	           var td = document.createElement('TD');
+	           td.width="16.66%";
+	           //td.appendChild(document.createTextNode("Cell " + i + "," + j));
+	           td.appendChild(document.createTextNode(val[k]));
+	           tr.appendChild(td);
+	           k++;
+	       }
+	    }
+	    myTableDiv.appendChild(table);
+	}
+</script>
 </body>
 </html>

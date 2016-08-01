@@ -146,6 +146,7 @@ public class HomeController extends JDBC{
 			mav.addObject("message", "There are no transaction as of now");
 		} else {
 			mav.addObject("message", Val);
+		    mav.addObject("rc",row);
 		}
  	    return mav;
 	}
@@ -244,16 +245,19 @@ public class HomeController extends JDBC{
 		System.out.println("in Adws");
 		String userid = reqPar.get("userid");
 		String pass = reqPar.get("pass");
-		boolean val = JDBC.adloginvali(userid, pass);
+		boolean val = JDBC.adloginvali(userid, pass, request);
 		
      	if (val == true) {
      		LinkedList<String> Val = JDBC.Adws();
      		System.out.println(Val);
+     		int size = Val.size();
+    		int row = size/5;
      	    ModelAndView mav = new ModelAndView("Adws");
      	   if (Val.isEmpty()) {
      		   mav.addObject("message", "There are no transaction as of now");
      	   } else {
      		   mav.addObject("message", Val);
+     		   mav.addObject("rc",row);
      	   }
      	    return mav;
         } else {

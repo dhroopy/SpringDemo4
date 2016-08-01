@@ -34,6 +34,9 @@
 						<td align="center"><a href='Reg'> Create Account!</a> </td>
 					</tr>
 					<tr>
+						<td align="center"><a href='Admin'> Admin!!</a> </td>
+					</tr>
+					<tr>
 						<td align="center"><div id="demo">${message}</div></td>
 					</tr>
 				</table>
